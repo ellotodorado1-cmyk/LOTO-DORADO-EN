@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Loto Dorado - Booking</title>
   <style>
-    /* VARIABLES Y ESTILOS GLOBALES */
+    /* VARIABLES Y ESTILOS GLOBALES DE LA PÁGINA */
     :root {
       --primary-color: #2b2b2b;
       --accent-color: #d1c2b4;
@@ -15,6 +15,15 @@
       --text-color: #ffffff;
       --text-muted: #a6a6a6;
       --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+      /* Variables integradas de la aplicación de reserva */
+      --app-primary: #c07a5f; 
+      --app-primary-hover: #a3644b;
+      --app-card-bg: #ffffff; 
+      --app-text: #4a4a4a;
+      --app-border: #e0d5ce; 
+      --app-error: #d9534f; 
+      --app-success: #5cb85c;
     }
 
     * {
@@ -191,30 +200,279 @@
       margin-top: 15px;
     }
 
-    /* IFRAME DE LA APP WEB DE RESERVAS */
-    .iframe-reserva-container {
+    /* SECCIÓN DE LA APLICACIÓN DE RESERVA INTEGRADA */
+    .app-reserva-seccion {
       margin-top: 50px;
       border-top: 1px solid rgba(209, 194, 180, 0.3);
       padding-top: 40px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
     }
 
-    .iframe-reserva-container h3 {
-      font-family: Georgia, serif;
-      font-size: 24px;
-      font-weight: normal;
-      color: #4a3e3d;
-      margin-bottom: 25px;
+    .app-reserva-seccion .container {
+      background: var(--app-card-bg);
+      max-width: 600px;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(192, 122, 95, 0.08);
+      padding: 30px;
+    }
+
+    .app-reserva-seccion .tabs {
+      display: flex;
+      border-bottom: 2px solid var(--app-border);
+      margin-bottom: 20px;
+    }
+
+    .app-reserva-seccion .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #a0a0a0;
+      transition: 0.3s;
+    }
+
+    .app-reserva-seccion .tab.active {
+      color: var(--app-primary);
+      border-bottom: 3px solid var(--app-primary);
+      margin-bottom: -2px;
+    }
+
+    .app-reserva-seccion .form-group {
+      margin-bottom: 16px;
+    }
+
+    .app-reserva-seccion label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 6px;
+      font-size: 0.9em;
+    }
+
+    .app-reserva-seccion input,
+    .app-reserva-seccion select,
+    .app-reserva-seccion textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--app-border);
+      border-radius: 6px;
+      font-size: 1em;
+      outline: none;
+    }
+
+    .app-reserva-seccion input:focus,
+    .app-reserva-seccion select:focus,
+    .app-reserva-seccion textarea:focus {
+      border-color: var(--app-primary);
+      box-shadow: 0 0 0 2px rgba(192,122,95,0.2);
+    }
+
+    .app-reserva-seccion .note {
+      font-size: 0.8em;
+      color: #888;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .app-reserva-seccion button {
+      background: var(--app-primary);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.2s;
+    }
+
+    .app-reserva-seccion button:hover:not(:disabled) {
+      background: var(--app-primary-hover);
+    }
+
+    .app-reserva-seccion button:disabled {
+      background: #dcdcdc;
+      cursor: not-allowed;
+    }
+
+    .app-reserva-seccion button.secondary {
+      background: #f0f0f0;
+      color: var(--app-text);
+      margin-top: 10px;
+    }
+
+    .app-reserva-seccion button.danger {
+      background: white;
+      color: var(--app-error);
+      border: 1px solid var(--app-error);
+      margin-top: 10px;
+    }
+
+    .app-reserva-seccion button.danger:hover {
+      background: var(--app-error);
+      color: white;
+    }
+
+    .app-reserva-seccion .step {
+      display: none;
+    }
+
+    .app-reserva-seccion .step.active {
+      display: block;
+      animation: fadeIn 0.4s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .app-reserva-seccion .calendar-container {
+      border: 1px solid var(--app-border);
+      border-radius: 8px;
+      padding: 15px;
+      background: #fff;
+      margin-bottom: 15px;
+    }
+
+    .app-reserva-seccion .cal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .app-reserva-seccion .cal-nav {
+      background: none;
+      border: none;
+      font-size: 1.2em;
+      color: var(--app-primary);
+      cursor: pointer;
+      padding: 0 10px;
+      width: auto;
+    }
+
+    .app-reserva-seccion .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
       text-align: center;
     }
 
-    .booking-iframe {
-      width: 100%;
-      height: 900px; /* Altura fija grande para eliminar scroll interno[cite: 1] */
-      border: 1px solid rgba(209, 194, 180, 0.4);
-      border-radius: 8px;
-      background-color: #ffffff;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.02);
-      overflow: hidden;
+    .app-reserva-seccion .cal-day-name {
+      font-size: 0.8em;
+      font-weight: 600;
+      color: #888;
+      padding-bottom: 5px;
+    }
+
+    .app-reserva-seccion .cal-day {
+      padding: 10px 0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: 0.2s;
+    }
+
+    .app-reserva-seccion .cal-day:hover:not(.disabled) {
+      background: #f0e6e1;
+    }
+
+    .app-reserva-seccion .cal-day.selected {
+      background: var(--app-primary);
+      color: white;
+      font-weight: bold;
+    }
+
+    .app-reserva-seccion .cal-day.disabled {
+      color: #d0d0d0;
+      cursor: not-allowed;
+      background: transparent;
+    }
+
+    .app-reserva-seccion .time-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .app-reserva-seccion .time-slot {
+      padding: 10px;
+      border: 1px solid var(--app-primary);
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      color: var(--app-primary);
+      font-weight: bold;
+    }
+
+    .app-reserva-seccion .time-slot:hover, 
+    .app-reserva-seccion .time-slot.selected {
+      background: var(--app-primary);
+      color: white;
+    }
+
+    .app-reserva-seccion .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--app-primary);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+      display: none;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .app-reserva-seccion .message {
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      display: none;
+      text-align: center;
+    }
+
+    .app-reserva-seccion .message.success {
+      background: #dff0d8;
+      color: #3c763d;
+      display: block;
+    }
+
+    .app-reserva-seccion .message.error {
+      background: #f2dede;
+      color: #a94442;
+      border: 1px solid #ebccd1;
+      display: block;
+    }
+
+    .app-reserva-seccion .summary-card {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      text-align: left;
+      border: 1px dashed var(--app-border);
+    }
+
+    .app-reserva-seccion .timezone-badge {
+      display: inline-block;
+      background: #eef;
+      color: #336;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      margin-bottom: 10px;
+      font-weight: bold;
     }
 
     /* SECCIÓN: NOTAS DE TU RESERVA */
@@ -385,7 +643,7 @@
 </head>
 <body>
 
-  <!-- Header / Barra de Navegación -->
+  <!-- Header / Navigation Bar -->
   <header>
     <div class="nav-container">
       <a href="index.html" class="brand">
@@ -410,28 +668,28 @@
     </div>
   </header>
 
-  <!-- Portada con Imagen detrás (Hero) -->
+  <!-- Hero Banner -->
   <section class="hero-reserva">
     <h1>Booking</h1>
   </section>
 
-  <!-- Contenido Principal -->
+  <!-- Main Content -->
   <main>
     
-    <!-- BLOQUE PRINCIPAL DE LA RESERVA -->
+    <!-- MAIN BOOKING SECTION -->
     <section class="contenido-reserva">
-      <h2 class="titulo-bienestar">Choose your path to wellness</h2>
+      <h2 class="titulo-bienestar">Choose your path to well-being</h2>
       
       <p class="intro-texto">
-        Each session is an integral ritual designed for your physical and mental restoration. For your total comfort, my service includes a professional massage table, aromatherapy, and deep relaxation technology (percussion therapy and gentle vibration).
+        Each session is an integrative ritual designed for your physical and mental restoration. For your complete comfort, my service includes a professional massage table, aromatherapy, and deep relaxation technology (percussion therapy and gentle vibration).
       </p>
 
       <h3 class="subtitulo-seccion">Sessions and Rates</h3>
       
       <ul class="lista-valores">
-        <li><strong>1 hour</strong> – Focus and quick relief: $100</li>
-        <li><strong>1 hour and 30 minutes</strong> – Balance and deep calm: $150</li>
-        <li><strong>2 hours</strong> – Total immersion and renewal: $200</li>
+        <li><strong>1 hour</strong> – Focus & quick relief: $100</li>
+        <li><strong>1 hour 30 minutes</strong> – Balance & deep calm: $150</li>
+        <li><strong>2 hours</strong> – Total immersion & renewal: $200</li>
         <li><strong>Up to 6 hours</strong> – Shared experience or extended bodywork (perfect for couples or groups at the same location)</li>
       </ul>
 
@@ -440,69 +698,166 @@
         <img src="metodo-pago.png" alt="Cash and Zelle" class="pago-img">
       </div>
 
-      <!-- SECCIÓN DEL IFRAME (APP WEB DE GOOGLE APPS SCRIPT) -->
-      <div class="iframe-reserva-container">
-        <h3>Complete your Booking</h3>
-        <iframe 
-          src="https://script.google.com/macros/s/AKfycbyq5a4VC28j7HSEhq8CTpTqpVuBPUXIJUZKUe1OORRIkQBv7kpeJjXGRH6JiKDYbfn9/exec" 
-          class="booking-iframe" 
-          allow="geolocation">
-        </iframe>
+      <!-- INTEGRATED BOOKING APPLICATION -->
+      <div class="app-reserva-seccion">
+        <div class="container">
+          <div class="tabs">
+            <div class="tab active" onclick="switchTab('agendar')">Book Appointment</div>
+            <div class="tab" onclick="switchTab('cancelar')">Cancel Booking</div>
+          </div>
+
+          <div id="tab-agendar" class="step active">
+            <div id="step-datos" class="step active">
+              <form id="form-datos">
+                <div class="form-group"><label>Full Name *</label><input type="text" id="nombre" required></div>
+                <div class="form-group"><label>Phone Number *</label><input type="tel" id="telefono" required></div>
+                <div class="form-group"><label>Silicon Valley City *</label>
+                  <select id="ciudad" required>
+                    <option value="">Select a city...</option>
+                    <option value="Atherton">Atherton</option>
+                    <option value="Belmont">Belmont</option>
+                    <option value="Campbell">Campbell</option>
+                    <option value="Cupertino">Cupertino</option>
+                    <option value="East Palo Alto">East Palo Alto</option>
+                    <option value="Fremont">Fremont</option>
+                    <option value="Los Altos">Los Altos</option>
+                    <option value="Los Altos Hills">Los Altos Hills</option>
+                    <option value="Los Gatos">Los Gatos</option>
+                    <option value="Menlo Park">Menlo Park</option>
+                    <option value="Milpitas">Milpitas</option>
+                    <option value="Monte Sereno">Monte Sereno</option>
+                    <option value="Mountain View">Mountain View</option>
+                    <option value="Newark">Newark</option>
+                    <option value="Palo Alto">Palo Alto</option>
+                    <option value="Portola Valley">Portola Valley</option>
+                    <option value="Redwood City">Redwood City</option>
+                    <option value="San Carlos">San Carlos</option>
+                    <option value="San José">San José</option>
+                    <option value="Santa Clara">Santa Clara</option>
+                    <option value="Saratoga">Saratoga</option>
+                    <option value="Sunnyvale">Sunnyvale</option>
+                    <option value="Woodside">Woodside</option>
+                  </select>
+                </div>
+                <div class="form-group"><label>Exact Address *</label><input type="text" id="direccion" required></div>
+                <div class="form-group"><label>Service Duration and Payment *</label>
+                  <select id="servicio" required>
+                    <option value="">Select duration</option>
+                    <option value="60" data-price="100">1 hour - $100 (Cash or Zelle)</option>
+                    <option value="90" data-price="150">1 hour 30 minutes - $150 (Cash or Zelle)</option>
+                    <option value="120" data-price="200">2 hours - $200 (Cash or Zelle)</option>
+                    <option value="150" data-price="250">2 hours 30 minutes - $250 (Cash or Zelle)</option>
+                    <option value="180" data-price="300">3 hours - $300 (Cash or Zelle)</option>
+                    <option value="210" data-price="350">3 hours 30 minutes - $350 (Cash or Zelle)</option>
+                    <option value="240" data-price="400">4 hours - $400 (Cash or Zelle)</option>
+                    <option value="270" data-price="450">4 hours 30 minutes - $450 (Cash or Zelle)</option>
+                    <option value="300" data-price="500">5 hours - $500 (Cash or Zelle)</option>
+                    <option value="330" data-price="550">5 hours 30 minutes - $550 (Cash or Zelle)</option>
+                    <option value="360" data-price="600">6 hours - $600 (Cash or Zelle)</option>
+                  </select>
+                </div>
+                <div class="form-group"><label>Email (Optional)</label><input type="email" id="email"><span class="note">* Required for confirmation.</span></div>
+                <div class="form-group"><label>Special Requests / Notes (Optional)</label><textarea id="sugerencias" rows="2"></textarea></div>
+                <button type="submit">Continue to Calendar</button>
+              </form>
+            </div>
+
+            <div id="step-calendario" class="step">
+              <h3 style="margin-top:0;">Select Date and Time</h3>
+              <div class="timezone-badge">🌎 California Time (PT)</div>
+              
+              <div class="calendar-container">
+                <div class="cal-header">
+                  <button class="cal-nav" onclick="cambiarMes(-1)">&#10094;</button>
+                  <span id="cal-mes-anio"></span>
+                  <button class="cal-nav" onclick="cambiarMes(1)">&#10095;</button>
+                </div>
+                <div class="cal-grid" id="cal-grid-dias"></div>
+              </div>
+
+              <div id="loader-horas" class="loader"></div>
+              <div id="contenedor-horas" class="time-grid"></div>
+              <p id="msg-no-horas" style="display:none; color: var(--app-error); font-size: 0.9em;">No availability on this date.</p>
+              
+              <div style="margin-top: 20px;">
+                <button id="btn-reservar" onclick="realizarReserva()" disabled>Confirm Booking</button>
+                <button class="secondary" onclick="volver('step-datos')">Go Back</button>
+              </div>
+            </div>
+
+            <div id="step-exito" class="step" style="text-align: center;">
+              <h2 style="color: var(--app-success);">Booking Successful!</h2>
+              <div id="resumen-reserva" class="summary-card"></div>
+              <button onclick="reiniciarApp()">Make Another Booking</button>
+            </div>
+          </div>
+
+          <div id="tab-cancelar" class="step">
+            <div id="cancelar-inicio" class="step active">
+              <div class="form-group"><label>Booking Number</label><input type="text" id="num-reserva-input" placeholder="e.g., RES-ABC123"></div>
+              <p style="font-size: 0.85em; color: #666;">Note: Cancellations require at least <strong>1 hour and 40 minutes</strong> advance notice.</p>
+              <div id="msg-cancelar"></div>
+              <div id="loader-cancelar" class="loader"></div>
+              <button class="danger" onclick="confirmarCancelar()">Confirm Cancellation</button>
+            </div>
+          </div>
+        </div>
       </div>
+
     </section>
 
-    <!-- SECCIÓN: NOTAS DE TU RESERVA -->
+    <!-- BOOKING INFORMATION & POLICIES -->
     <section class="notas-section">
-      <h2>📌 Booking Notes</h2>
+      <h2>📌 Booking Information & Policies</h2>
       
       <div class="notas-grid">
         <div class="nota-item">
           <div class="nota-icon">📍</div>
           <div class="nota-content">
-            <h4>Coverage</h4>
-            <p>Exclusively Silicon Valley cities.</p>
+            <h4>Service Area</h4>
+            <p>Exclusively serving Silicon Valley cities.</p>
           </div>
         </div>
         <div class="nota-item">
           <div class="nota-icon">⏰</div>
           <div class="nota-content">
-            <h4>Schedule</h4>
+            <h4>Working Hours</h4>
             <p>Monday to Friday (8:00 AM – 8:00 PM).</p>
           </div>
         </div>
         <div class="nota-item">
           <div class="nota-icon">📅</div>
           <div class="nota-content">
-            <h4>Agenda</h4>
-            <p>Maximum 2 weeks in advance; minimum 2 hours before the service.</p>
+            <h4>Scheduling</h4>
+            <p>Up to 2 weeks in advance; minimum 2 hours prior to service.</p>
           </div>
         </div>
         <div class="nota-item">
           <div class="nota-icon">💳</div>
           <div class="nota-content">
-            <h4>Payments</h4>
-            <p>Cash or Zelle only (upon receiving the service).</p>
+            <h4>Payment</h4>
+            <p>Cash or Zelle only (payable at the time of service).</p>
           </div>
         </div>
         <div class="nota-item">
           <div class="nota-icon">🚫</div>
           <div class="nota-content">
             <h4>Cancellations</h4>
-            <p>Only with more than 1 hour and 40 minutes of notice using your booking number; use the Cancel Booking tab.</p>
+            <p>Only allowed with more than 1 hour and 40 minutes notice using your booking number via the Cancel Booking tab.</p>
           </div>
         </div>
         <div class="nota-item">
           <div class="nota-icon">📧</div>
           <div class="nota-content">
             <h4>Confirmation</h4>
-            <p>If you include your email, you will receive details and the booking number. If not, be sure to note/save the data that will appear on screen at the end.</p>
+            <p>If you provide an email, you will receive confirmation details and your booking number. Otherwise, please save or screenshot the details shown on screen upon completion.</p>
           </div>
         </div>
         <div class="nota-item">
           <div class="nota-icon">🏠</div>
           <div class="nota-content">
             <h4>Preparation</h4>
-            <p>Have a clear space ready for the massage table and let us know about any medical conditions in the form.</p>
+            <p>Please have a clear space ready for the massage table and let us know of any medical conditions in the booking form.</p>
           </div>
         </div>
       </div>
@@ -515,7 +870,7 @@
     <div class="footer-container">
       <div class="footer-contact">
         <h4>For more information, contact us at:</h4>
-        <p><a href="tel:+15106267229">+1 510 626 7229</a> or write to us at <a href="mailto:ellotodorado1@gmail.com">ellotodorado1@gmail.com</a></p>
+        <p><a href="tel:+15106267229">+1 510 626 7229</a> or email us at <a href="mailto:ellotodorado1@gmail.com">ellotodorado1@gmail.com</a></p>
       </div>
       <div class="social-icons">
         <a href="https://www.facebook.com/people/Loto-Dorado/61591663160509/?locale=es_LA" target="_blank" class="social-btn" aria-label="Facebook">
@@ -539,12 +894,237 @@
     </div>
   </footer>
 
+  <!-- RESPONSIVE MENU SCRIPT -->
   <script>
     const mobileMenu = document.getElementById('mobile-menu');
     const navList = document.getElementById('nav-list');
     mobileMenu.addEventListener('click', () => {
       navList.classList.toggle('active');
     });
+  </script>
+
+  <!-- BOOKING APPLICATION SCRIPT (APPS SCRIPT INTEGRATION) -->
+  <script>
+    // URL DE TU DESPLIEGUE DE APPS SCRIPT
+    const API_URL = 'https://script.google.com/macros/s/AKfycbyaQ1ThjmnJZ1uVzqsXkYzH6eZWJ5mCc6HI8J0s1TsQc2hvq2iCGRf4xo7bwLDZYeRKEw/exec';
+
+    let reservaActual = { horaInicioMs: null, duracion: null, precio: null, anio:null, mes:null, dia:null };
+
+    const optionsSF = { timeZone: 'America/Los_Angeles', year: 'numeric', month: 'numeric', day: 'numeric' };
+    const formatterSF = new Intl.DateTimeFormat('en-US', optionsSF);
+    const partsSF = formatterSF.formatToParts(new Date());
+    
+    let sfYear = parseInt(partsSF.find(p => p.type === 'year').value);
+    let sfMonth = parseInt(partsSF.find(p => p.type === 'month').value) - 1;
+    let sfDay = parseInt(partsSF.find(p => p.type === 'day').value);
+
+    let hoySF = new Date(sfYear, sfMonth, sfDay);
+    hoySF.setHours(0,0,0,0);
+    let maxDateSF = new Date(hoySF.getTime() + 14 * 24 * 60 * 60 * 1000);
+    
+    let currentMonth = hoySF.getMonth();
+    let currentYear = hoySF.getFullYear();
+
+    const meses = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.app-reserva-seccion .tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.app-reserva-seccion .container > .step').forEach(c => c.classList.remove('active'));
+      if (tabId === 'agendar') {
+        document.querySelector('.app-reserva-seccion .tab:nth-child(1)').classList.add('active');
+        document.getElementById('tab-agendar').classList.add('active');
+      } else {
+        document.querySelector('.app-reserva-seccion .tab:nth-child(2)').classList.add('active');
+        document.getElementById('tab-cancelar').classList.add('active');
+      }
+    }
+
+    function volver(stepId) {
+      document.querySelectorAll('#tab-agendar .step').forEach(s => s.classList.remove('active'));
+      document.getElementById(stepId).classList.add('active');
+    }
+
+    document.getElementById('form-datos').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const s = document.getElementById('servicio');
+      reservaActual.duracion = s.value;
+      reservaActual.precio = s.options[s.selectedIndex].getAttribute('data-price');
+      reservaActual.nombre = document.getElementById('nombre').value;
+      reservaActual.telefono = document.getElementById('telefono').value;
+      reservaActual.ciudad = document.getElementById('ciudad').value;
+      reservaActual.direccion = document.getElementById('direccion').value;
+      reservaActual.email = document.getElementById('email').value;
+      reservaActual.sugerencias = document.getElementById('sugerencias').value;
+      
+      renderCalendar();
+      volver('step-calendario');
+    });
+
+    function cambiarMes(dir) {
+      currentMonth += dir;
+      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+      else if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+      renderCalendar();
+    }
+
+    function renderCalendar() {
+      document.getElementById('cal-mes-anio').innerText = `${meses[currentMonth]} ${currentYear}`;
+      const grid = document.getElementById('cal-grid-dias');
+      grid.innerHTML = '<div class="cal-day-name">Su</div><div class="cal-day-name">Mo</div><div class="cal-day-name">Tu</div><div class="cal-day-name">We</div><div class="cal-day-name">Th</div><div class="cal-day-name">Fr</div><div class="cal-day-name">Sa</div>';
+
+      let primerDia = new Date(currentYear, currentMonth, 1).getDay();
+      let diasEnMes = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+      for (let i = 0; i < primerDia; i++) grid.innerHTML += `<div></div>`;
+
+      for (let dia = 1; dia <= diasEnMes; dia++) {
+        let fechaBucle = new Date(currentYear, currentMonth, dia);
+        let esFinDeSemana = (fechaBucle.getDay() === 0 || fechaBucle.getDay() === 6);
+        let esPasado = fechaBucle < hoySF;
+        let esMuyLejos = fechaBucle > maxDateSF;
+        
+        let div = document.createElement('div');
+        div.className = 'cal-day';
+        div.innerText = dia;
+
+        if (esFinDeSemana || esPasado || esMuyLejos) {
+          div.classList.add('disabled');
+        } else {
+          div.onclick = () => seleccionarFecha(currentYear, currentMonth, dia, div);
+          if (reservaActual.anio === currentYear && reservaActual.mes === currentMonth && reservaActual.dia === dia) {
+            div.classList.add('selected');
+          }
+        }
+        grid.appendChild(div);
+      }
+    }
+
+    function seleccionarFecha(anio, mes, dia, elementoDiv) {
+      document.querySelectorAll(`#cal-grid-dias .cal-day`).forEach(el => el.classList.remove('selected'));
+      elementoDiv.classList.add('selected');
+      reservaActual.anio = anio; reservaActual.mes = mes; reservaActual.dia = dia;
+      cargarHoras(anio, mes, dia);
+    }
+
+    function cargarHoras(anio, mes, dia) {
+      document.getElementById('contenedor-horas').innerHTML = '';
+      document.getElementById('loader-horas').style.display = 'block';
+      document.getElementById('msg-no-horas').style.display = 'none';
+      document.getElementById('btn-reservar').disabled = true;
+
+      const url = `${API_URL}?anio=${anio}&mes=${mes}&dia=${dia}&duracion=${reservaActual.duracion}`;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(res => {
+          if (res.exito) {
+            mostrarHoras(res.datos);
+          } else {
+            alert("Error: " + res.error);
+            document.getElementById('loader-horas').style.display = 'none';
+          }
+        })
+        .catch(err => {
+          alert("Communication error: " + err.message);
+          document.getElementById('loader-horas').style.display = 'none';
+        });
+    }
+
+    function mostrarHoras(horas) {
+      document.getElementById('loader-horas').style.display = 'none';
+      const contenedor = document.getElementById('contenedor-horas');
+      if (!horas || horas.length === 0) { document.getElementById('msg-no-horas').style.display = 'block'; return; }
+
+      horas.forEach(h => {
+        let div = document.createElement('div');
+        div.className = 'time-slot';
+        div.innerText = h.etiqueta;
+        div.onclick = function() {
+          document.querySelectorAll('#contenedor-horas .time-slot').forEach(el => el.classList.remove('selected'));
+          this.classList.add('selected');
+          reservaActual.horaInicioMs = h.valor;
+          document.getElementById('btn-reservar').disabled = false;
+        };
+        contenedor.appendChild(div);
+      });
+    }
+
+    function realizarReserva() {
+      document.getElementById('btn-reservar').disabled = true;
+      document.getElementById('btn-reservar').innerText = 'Processing...';
+
+      fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          accion: 'RESERVAR',
+          datos: reservaActual
+        })
+      })
+      .then(res => res.json())
+      .then(res => {
+        if(res.exito) {
+          document.getElementById('resumen-reserva').innerHTML = `
+            <strong>Booking #:</strong> ${res.numeroReserva} <br>
+            <strong>Date (PT):</strong> ${res.fecha} <br>
+            <strong>Client:</strong> ${reservaActual.nombre} <br>
+            <strong>Service:</strong> ${reservaActual.duracion} min ($${reservaActual.precio}) <br>
+            <strong>Payment Method:</strong> Cash or Zelle
+          `;
+          volver('step-exito');
+        } else {
+          alert("Error: " + res.error);
+          document.getElementById('btn-reservar').disabled = false;
+          document.getElementById('btn-reservar').innerText = 'Confirm Booking';
+        }
+      })
+      .catch(err => {
+        alert("Network error: " + err.message);
+        document.getElementById('btn-reservar').disabled = false;
+        document.getElementById('btn-reservar').innerText = 'Confirm Booking';
+      });
+    }
+
+    function reiniciarApp() {
+      document.getElementById('form-datos').reset();
+      reservaActual = { horaInicioMs: null, duracion: null, precio: null, anio:null, mes:null, dia:null };
+      document.getElementById('contenedor-horas').innerHTML = '';
+      
+      const btn = document.getElementById('btn-reservar');
+      btn.innerText = 'Confirm Booking';
+      btn.disabled = true;
+      
+      volver('step-datos');
+    }
+
+    function mostrarMensajeCancelar(msg, tipo) {
+      document.getElementById('msg-cancelar').innerHTML = `<div class="message ${tipo}">${msg}</div>`;
+    }
+
+    function confirmarCancelar() {
+      const num = document.getElementById('num-reserva-input').value.trim();
+      if(!num) { mostrarMensajeCancelar("Please enter a booking number.", "error"); return; }
+      if(confirm("Are you sure you want to cancel this booking?")) {
+        document.getElementById('loader-cancelar').style.display = 'block';
+
+        fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            accion: 'CANCELAR',
+            numeroReserva: num
+          })
+        })
+        .then(res => res.json())
+        .then(res => {
+          document.getElementById('loader-cancelar').style.display = 'none';
+          mostrarMensajeCancelar(res.exito ? res.mensaje : res.error, res.exito ? 'success' : 'error');
+          if (res.exito) document.getElementById('num-reserva-input').value = '';
+        })
+        .catch(err => {
+          document.getElementById('loader-cancelar').style.display = 'none';
+          mostrarMensajeCancelar("Connection error: " + err.message, "error");
+        });
+      }
+    }
   </script>
 </body>
 </html>
